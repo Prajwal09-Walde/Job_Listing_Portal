@@ -1,0 +1,25 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "installCommand": "npm install --legacy-peer-deps",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite",
+  "regions": ["iad1"],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "destination": "http://localhost:5000/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}
