@@ -1,10 +1,10 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import { config } from 'dotenv';
+import mongoose from 'mongoose';
+import Application from './models/Application.js';
+import Job from './models/Job.js';
+import User from './models/User.js';
 
-const User = require('./models/User');
-const Job = require('./models/Job');
-const Application = require('./models/Application');
+config();
 
 const connectDB = async () => {
   const conn = await mongoose.connect(process.env.MONGO_URI);

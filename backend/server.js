@@ -1,10 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
-const connectDB = require('./config/db');
+import cors from 'cors';
+import { config } from 'dotenv';
+import express from 'express';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import connectDB from './config/db.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+config();
 connectDB();
 
 const app = express();
@@ -18,13 +22,18 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(join(__dirname, 'uploads')));
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/jobs', require('./routes/jobs'));
-app.use('/api/applications', require('./routes/applications'));
+import applicationRoutes from './routes/applications.js';
+import authRoutes from './routes/auth.js';
+import jobRoutes from './routes/jobs.js';
+import userRoutes from './routes/users.js';
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

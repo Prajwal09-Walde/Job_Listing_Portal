@@ -1,13 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
-const User = require('../models/User');
-const { protect } = require('../middleware/auth');
+import { Router } from 'express';
+import { body, validationResult } from 'express-validator';
+import jwtPkg from 'jsonwebtoken';
+import authMiddleware from '../middleware/auth.js';
+import User from '../models/User.js';
+const router = Router();
+const { sign } = jwtPkg;
+const { protect } = authMiddleware;
 
 // Helper to generate JWT
 const generateToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
 // @route   POST /api/auth/register
 // @desc    Register new user
@@ -78,7 +80,10 @@ router.post(
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ email }).select('+password');
+      // Accepts either email OR name
+      const user = await User.findOne({ 
+        $or: [{ email }, { name }] 
+      }).select('+password');
       if (!user) {
         return res.status(401).json({ success: false, message: 'Invalid email or password' });
       }
@@ -122,4 +127,4 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

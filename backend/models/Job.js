@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const jobSchema = new mongoose.Schema(
+const jobSchema = new Schema(
   {
     employer: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
@@ -66,4 +66,4 @@ jobSchema.index({ jobType: 1 });
 jobSchema.index({ isActive: 1 });
 jobSchema.index({ createdAt: -1 });
 
-module.exports = mongoose.model('Job', jobSchema);
+export default model('Job', jobSchema);

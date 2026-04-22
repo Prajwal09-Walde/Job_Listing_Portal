@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const Application = require('../models/Application');
-const Job = require('../models/Job');
-const { protect, jobseekerOnly, employerOnly } = require('../middleware/auth');
+import { Router } from 'express';
+const router = Router();
+import Application from '../models/Application.js';
+import Job from '../models/Job.js';
+import auth from '../middleware/auth.js';
+const { protect, jobseekerOnly, employerOnly } = auth;
 
 // @route   POST /api/applications
 // @desc    Apply to a job
@@ -125,4 +126,4 @@ router.put('/:id/status', protect, employerOnly, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

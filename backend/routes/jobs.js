@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const Job = require('../models/Job');
-const Application = require('../models/Application');
-const { protect, employerOnly } = require('../middleware/auth');
+import { Router } from 'express';
+const router = Router();
+import Job from '../models/Job.js';
+import Application from '../models/Application.js';
+import auth from '../middleware/auth.js';
+const { protect, employerOnly } = auth;
 
 // @route   GET /api/jobs
 // @desc    Get all jobs with search & filter
@@ -229,4 +230,4 @@ router.get('/:id/applications', protect, employerOnly, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/User');
-const { protect } = require('../middleware/auth');
-const upload = require('../middleware/upload');
-const path = require('path');
+import { Router } from 'express';
+const router = Router();
+import User from '../models/User.js';
+import auth from '../middleware/auth.js';
+const { protect } = auth;
+import upload from '../middleware/upload.js';
+import path from 'path';
 
 // @route   GET /api/users/profile
 // @desc    Get current user profile
@@ -98,4 +99,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

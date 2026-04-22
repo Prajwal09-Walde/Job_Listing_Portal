@@ -1,14 +1,14 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const applicationSchema = new mongoose.Schema(
+const applicationSchema = new Schema(
   {
     job: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Job',
       required: true,
     },
     applicant: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
@@ -38,4 +38,4 @@ applicationSchema.index({ applicant: 1 });
 applicationSchema.index({ job: 1 });
 applicationSchema.index({ status: 1 });
 
-module.exports = mongoose.model('Application', applicationSchema);
+export default model('Application', applicationSchema);
